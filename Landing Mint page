@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dynamic NFT Minting</title>
+</head>
+<body>
+    <h1>Welcome to Dynamic NFT Minting</h1>
+    <p>Mint your own dynamic NFT with changing artwork every day!</p>
+    <form id="mintForm" onsubmit="mintNFT(); return false;">
+        <label for="walletAddress">Your Wallet Address:</label>
+        <input type="text" id="walletAddress" required>
+        <button type="submit">Mint NFT</button>
+    </form>
+
+    <script>
+        const contractAddress = '0x123456789ABCDEF...'; // Replace with your actual contract address
+
+        async function mintNFT() {
+            const walletAddress = document.getElementById('walletAddress').value;
+            try {
+                // Call the mint function on the smart contract
+                const response = await fetch(`/mint?walletAddress=${walletAddress}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+                if (response.ok) {
+                    const tokenId = await response.json();
+                    alert(`NFT minted successfully! Token ID: ${tokenId}`);
+                } else {
+                    alert('Failed to mint NFT. Please try again later.');
+                }
+            } catch (error) {
+                console.error(error);
+                alert('Failed to mint NFT. Please try again later.');
+            }
+        }
+    </script>
+</body>
+</html>
